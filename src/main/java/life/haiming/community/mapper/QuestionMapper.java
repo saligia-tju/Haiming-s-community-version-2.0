@@ -27,4 +27,7 @@ public interface QuestionMapper {
     @Select("select count(*) from question where creator = #{userId}")
     Integer countByUserId(Integer userId);
 
+    @Select("select * from question where id = #{id}")
+    Question getById(@Param("id") Integer id);
+    //@Param用法： @Param("xxx") Integer id :将xxx作为key,其值为id，使用#{xxx}即可取到值：id
 }
