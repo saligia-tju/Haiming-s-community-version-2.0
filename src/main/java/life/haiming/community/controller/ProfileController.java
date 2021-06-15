@@ -1,8 +1,6 @@
 package life.haiming.community.controller;
 
 import life.haiming.community.dto.PaginationDTO;
-import life.haiming.community.mapper.QuestionMapper;
-import life.haiming.community.mapper.UserMapper;
 import life.haiming.community.model.User;
 import life.haiming.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
 
-    @Autowired(required = false)
-    private UserMapper userMapper;
 
     @Autowired(required = false)
     private QuestionService questionService;
@@ -31,22 +26,8 @@ public class ProfileController {
                           @RequestParam(name = "page", defaultValue = "1") Integer page,
                           @RequestParam(name = "size", defaultValue = "5") Integer size) {
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
-
-        if(user == null){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             return "redirect:/";
         }
         if ("questions".contains(action)) {
@@ -69,7 +50,7 @@ public class ProfileController {
         }*/
 
         PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination",paginationDTO);
+        model.addAttribute("pagination", paginationDTO);
 
         return "profile";
     }
