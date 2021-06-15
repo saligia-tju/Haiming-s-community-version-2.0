@@ -16,13 +16,17 @@ public class PaginationDTO {
     private List<Integer> pages = new ArrayList<>();
     private Integer totalPage;
 
-    public void setPagination(Integer totalCount, Integer page, Integer size) {
+    public void setPagination(Integer totalPage, Integer page) {
+/*
         //计算页数，并根据当前页数选择显示什么标签
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
             totalPage = totalCount / size + 1;
         }
+*/
+
+        this.totalPage = totalPage;
 
         this.page = page;
         pages.add(page);

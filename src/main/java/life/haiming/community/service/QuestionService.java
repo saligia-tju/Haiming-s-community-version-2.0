@@ -25,16 +25,25 @@ public class QuestionService {
     public PaginationDTO list(Integer page, Integer size) {
 
         PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalPage;
+
         Integer totalCount = questionMapper.count();
-        paginationDTO.setPagination(totalCount, page, size);
+        //计算页数，并根据当前页数选择显示什么标签
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
 
 
         if (page < 1) {
             page = 1;
         }
-        if (page > paginationDTO.getTotalPage()) {
-            page = paginationDTO.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
+
+        paginationDTO.setPagination(totalPage, page);
 
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.list(offset, size);
@@ -53,21 +62,30 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Integer accountId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = questionMapper.countByUserId(userId);
-        paginationDTO.setPagination(totalCount, page, size);
+        Integer totalPage;
+
+        Integer totalCount = questionMapper.countByUserId(accountId);
+        //计算页数，并根据当前页数选择显示什么标签
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
 
 
         if (page < 1) {
             page = 1;
         }
-        if (page > paginationDTO.getTotalPage()) {
-            page = paginationDTO.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
 
+        paginationDTO.setPagination(totalPage, page);
+
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.listByUserId(userId,offset, size);
+        List<Question> questions = questionMapper.listByUserId(accountId, offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
