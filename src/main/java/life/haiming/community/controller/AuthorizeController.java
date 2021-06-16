@@ -5,6 +5,7 @@ import life.haiming.community.dto.GithubUser;
 import life.haiming.community.mapper.UserMapper;
 import life.haiming.community.model.User;
 import life.haiming.community.provider.GithubProvider;
+import life.haiming.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class AuthorizeController {
     @Autowired(required = false)
     private UserMapper userMapper;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -60,8 +64,7 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             // 将token自动写入Cookie
             response.addCookie(new Cookie("token", token));
 
@@ -73,5 +76,15 @@ public class AuthorizeController {
             // 登录失败，重新登录
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
