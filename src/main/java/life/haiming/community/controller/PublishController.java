@@ -1,7 +1,6 @@
 package life.haiming.community.controller;
 
 import life.haiming.community.dto.QuestionDTO;
-import life.haiming.community.mapper.QuestionMapper;
 import life.haiming.community.model.Question;
 import life.haiming.community.model.User;
 import life.haiming.community.service.QuestionService;
@@ -22,7 +21,7 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id") Integer id,
+    public String edit(@PathVariable(name = "id") Long id,
                        Model model) {
         QuestionDTO question = questionService.getById(id);
         model.addAttribute("title", question.getTitle());
@@ -74,7 +73,7 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setId(id);
+        question.setId(Long.valueOf(id));
 
         questionService.createOrUpdate(question);
 
