@@ -30,7 +30,7 @@
                 <span th:text="${question.description}"></span><br>
                 <span class="text-desc">1 人关注 • <span th:text="${question.commentCount}"></span> 个回复 • <span
                         th:text="${question.viewCount}"></span> <span
-                        th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
                 </span>
             </div>
         </div>

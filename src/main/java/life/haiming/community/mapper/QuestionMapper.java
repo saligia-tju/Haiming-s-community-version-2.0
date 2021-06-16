@@ -2,10 +2,7 @@ package life.haiming.community.mapper;
 
 
 import life.haiming.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public interface QuestionMapper {
     void create(Question question);
 
     @Select("select * from question limit #{offset}, #{size}")
-    List<Question>  list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
+    List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
     @Select("select count(*) from question")
     Integer count();
@@ -27,7 +24,10 @@ public interface QuestionMapper {
     @Select("select count(*) from question where creator = #{userId}")
     Integer countByUserId(Integer userId);
 
+    //@Param用法： @Param("xxx") Integer id :将xxx作为key,其值为id，使用#{xxx}即可取到值：id
     @Select("select * from question where id = #{id}")
     Question getById(@Param("id") Integer id);
-    //@Param用法： @Param("xxx") Integer id :将xxx作为key,其值为id，使用#{xxx}即可取到值：id
+
+    @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag = #{tag} where id = #{id}")
+    void update(Question question);
 }
