@@ -4,6 +4,7 @@ import life.haiming.community.dto.PaginationDTO;
 import life.haiming.community.dto.QuestionDTO;
 import life.haiming.community.exception.CustomizeErrorCode;
 import life.haiming.community.exception.CustomizeException;
+import life.haiming.community.mapper.QuestionExtMapper;
 import life.haiming.community.mapper.QuestionMapper;
 import life.haiming.community.mapper.UserMapper;
 import life.haiming.community.model.Question;
@@ -22,6 +23,9 @@ public class QuestionService {
 
     @Autowired(required = false)
     private QuestionMapper questionMapper;
+
+    @Autowired(required = false)
+    private QuestionExtMapper questionExtMapper;
 
     @Autowired(required = false)
     private UserMapper userMapper;
@@ -155,5 +159,14 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    //需要考虑并发问题
+    public void incView(Long id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
