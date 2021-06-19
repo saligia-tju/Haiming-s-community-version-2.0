@@ -2,6 +2,8 @@ package life.haiming.community.service;
 
 import life.haiming.community.dto.PaginationDTO;
 import life.haiming.community.dto.QuestionDTO;
+import life.haiming.community.exception.CustomizeErrorCode;
+import life.haiming.community.exception.CustomizeException;
 import life.haiming.community.mapper.QuestionMapper;
 import life.haiming.community.mapper.UserMapper;
 import life.haiming.community.model.Question;
@@ -121,6 +123,10 @@ public class QuestionService {
 
     public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        //若问题不存在
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -144,7 +150,10 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int update = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if(update != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
