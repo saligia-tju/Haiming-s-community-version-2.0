@@ -23,7 +23,22 @@ body {
     font-weight: normal;
     color: #999999;
 }
+
 .community-menu {
     color: #999;
     font-size: 13px;
+}
+
+.media-body {
+    padding-top: 11px
+}
+
+.btn-comment {
+    /*代表上下边距为10px，左右为0*/
+    margin: 10px 0;
+}
+
+.btn-success {
+    float: right;
+    margin-bottom: 10px;
 }
