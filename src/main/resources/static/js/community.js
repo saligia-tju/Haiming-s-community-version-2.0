@@ -17,7 +17,19 @@ function post() {
             if (response.code == 200) {
                 $("#comment_section").hide();
             } else {
-                alert(response.message);
+                if (response.code == 2003) {
+                    //弹一个确认框
+                    var isAccepted = confirm(response.message); //返回错误提示信息
+                    //如果isAccepted == true，说明点击了确认,跳转页面到登录页
+                    if (isAccepted) {
+                        window.open("https://github.com/login/oauth/authorize?client_id=2dbeb9ea261b20041f31&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        window.localStorage.setItem("closable", true);
+
+                    }
+
+                } else {
+                    alert(response.message);
+                }
             }
             console.log(response);
         },

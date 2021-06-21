@@ -16,6 +16,7 @@
 
 <div class="container-fluid main ">
     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+        <!--正文-->
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h3><span th:text="${question.title}"></span></h3>
             <span class="text-desc">
@@ -34,8 +35,12 @@
                 编辑</a>
         </div>
 
-        <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+        <!--回复-->
+        <h4>
+            <span th:text="${question.commentCount}"></span> 个回复
+        </h4>
+        <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="media">
                 <div class="media-left">
                     <a href="#">
@@ -43,12 +48,26 @@
                         <img class="media-object2" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
-                <div class="media-body" >
+                <div class="media-body">
                     <h5 class="media-heading">
                         <span th:text="${question.user.name}"></span>
                     </h5>
+                    <div>我是回复内容</div>
+                    <!--点赞/评论/时间标签-->
+                    <div class="menu">
+                        <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                        <span class="glyphicon glyphicon-comment icon"></span>
+                        <span class="pull-right" th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd')}"></span>
+                    </div>
                 </div>
+
             </div>
+        </div>
+
+        <!--回复输入框-->
+        <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+
             <input type="hidden" id="question_id" th:value="${question.id}">
             <textarea class="form-control comment" rows="6" id="comment_content"></textarea>
             <!--点击回复时绑定到JS的事件,onclick事件-->
