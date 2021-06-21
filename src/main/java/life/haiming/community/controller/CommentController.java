@@ -1,6 +1,6 @@
 package life.haiming.community.controller;
 
-import life.haiming.community.dto.CommentDTO;
+import life.haiming.community.dto.CommentCreateDTO;
 import life.haiming.community.dto.ResultDTO;
 import life.haiming.community.exception.CustomizeErrorCode;
 import life.haiming.community.mapper.CommentMapper;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Controller
@@ -36,7 +34,7 @@ public class CommentController {
     // org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'text/plain;charset=UTF-8' not supported
     @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     //可以将传递过来的JSON自动地将Key与Value赋值到commentDTO
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
 
@@ -46,13 +44,13 @@ public class CommentController {
 
 
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setParentId(commentDTO.getParentId());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
-        comment.setCommentator((long) 1);
+        comment.setCommentator(user.getId());
         comment.setLikeCount((long) 0);
         commentService.insert(comment);
         return ResultDTO.okOf();

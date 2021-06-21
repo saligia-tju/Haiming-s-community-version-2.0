@@ -40,24 +40,26 @@
             <span th:text="${question.commentCount}"></span> 个回复
         </h4>
         <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:each="comment: ${comments}">
             <div class="media">
                 <div class="media-left">
                     <a href="#">
                         <!--需要在application.properties中将mybatis.configuration.map-underscore-to-camel-case=true-->
-                        <img class="media-object2" th:src="${question.user.avatarUrl}">
+                        <img class="media-object2"
+                             th:src="${comment.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading">
-                        <span th:text="${question.user.name}"></span>
+                        <span th:text="${comment.user.name}"></span>
                     </h5>
-                    <div>我是回复内容</div>
+                    <!--如果content的类型是text，就传输失败；更改为VARCHAR(255)后，即可正常显示-->
+                    <div th:text="${comment.content}"></div>
                     <!--点赞/评论/时间标签-->
                     <div class="menu">
                         <span class="glyphicon glyphicon-thumbs-up icon"></span>
                         <span class="glyphicon glyphicon-comment icon"></span>
-                        <span class="pull-right" th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd')}"></span>
+                        <span class="pull-right" th:text="${#dates.format(comment.gmtModified,'yyyy-MM-dd')}"></span>
                     </div>
                 </div>
 
