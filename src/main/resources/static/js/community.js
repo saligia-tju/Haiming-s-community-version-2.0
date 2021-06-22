@@ -1,8 +1,28 @@
+/**
+ * 基于jQuery获取data属性
+ * */
+
+/**
+ * 提交回复
+ */
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
 
-    if(!content){
+    commentToTarget(questionId, 1, content);
+}
+
+
+function comment(e) {
+    var commentId = e.getAttribute("data-id");
+    var content = $("#input-" + commentId).val();
+
+    commentToTarget(commentId, 2, content);
+
+}
+
+function commentToTarget(targetId, type, content) {
+    if (!content) {
         alert("不能回复空内容~");
         return;
     }
@@ -13,9 +33,9 @@ function post() {
         url: "/comment",
         /*我们可以使用 JSON.stringify() 方法将 JavaScript 对象转换为字符串。*/
         data: JSON.stringify({
-            "parentId": questionId,
+            "parentId": targetId,
             "content": content,
-            "type": 1,
+            "type": type,
 
         }),
         success: function (response) {
@@ -30,7 +50,6 @@ function post() {
                     if (isAccepted) {
                         window.open("https://github.com/login/oauth/authorize?client_id=2dbeb9ea261b20041f31&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
-
                     }
 
                 } else {
@@ -43,7 +62,51 @@ function post() {
         dataType: "json",//返回格式
         contentType: "application/json"
     });
-
-    console.log(questionId);
-    console.log(content);
 }
+
+/**
+ * 展开二级评论
+ */
+function collapseComments(e) {
+    /**/
+    var id = e.getAttribute("data-id");
+    var comments = $("#comment-" + id);
+    /**toggleClass() 对设置或移除被选元素的一个或多个类进行切换。
+     comments.toggleClass("in");
+     */
+        //获取二级评论展开状态
+    var collapse = e.getAttribute("data-collapse");
+    if (collapse) {
+        //折叠二级评论
+        comments.removeClass("in");
+        e.removeAttribute("data-collapse");
+        e.classList.remove("active");
+    }
+    //这行代码加上就报错 我淦！！！！！！！！！！！
+    else {
+        $.getJSON("/comment/" + id, function (data) {
+            let subCommentContainer = $("#comment-" + id);
+            $.each(data.data,function (index,comment){
+                var c = $("<div/>",{
+                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                    html:comment.content
+                });
+                subCommentContainer.prepend(c);
+            });
+
+            //展开二级评论
+            comments.addClass("in");
+            //标记二级评论展开状态
+            e.setAttribute("data-collapse", "in");
+            e.classList.add("active");
+        });
+    }
+}
+/*
+    else {
+        comments.addClass("in");
+        //标记二级评论展开状态
+        e.setAttribute("data-collapse", "in");
+        e.classList.add("active");
+    }
+}*/

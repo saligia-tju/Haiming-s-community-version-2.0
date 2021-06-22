@@ -68,11 +68,11 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
         //对评论进行排序
         commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
@@ -93,13 +93,12 @@ public class CommentService {
                 .andIdIn(userIds);
         // 默认SQL查询返回的就是List<User>类型
         List<User> users = userMapper.selectByExample(userExample);
-/** 暴力算法
- *   for (Comment comment : comments) {
- for (User user : users) {
+        /** 暴力算法
+         *   for (Comment comment : comments) {
+         for (User user : users) {
 
- }
- }*/
-
+         }
+         }*/
         // 为得到简化的时间复杂度，需要将users转为map
         Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));//
 

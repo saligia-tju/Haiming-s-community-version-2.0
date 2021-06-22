@@ -1,8 +1,8 @@
 package life.haiming.community.controller;
 
-import life.haiming.community.dto.CommentCreateDTO;
 import life.haiming.community.dto.CommentDTO;
 import life.haiming.community.dto.QuestionDTO;
+import life.haiming.community.enums.CommentTypeEnum;
 import life.haiming.community.service.CommentService;
 import life.haiming.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class QuestionController {
         QuestionDTO questionDTO = questionService.getById(id);
 
         //返回List，内容为CommentDTO
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
 
         //累加阅读数

@@ -31,7 +31,7 @@ body {
     margin-bottom: 15px;
 }
 
-.question-title{
+.question-title {
     margin-top: 25px;
 }
 
@@ -72,6 +72,22 @@ body {
     cursor: pointer;
 }
 
+.menu .active {
+    color: #499ef3;
+}
+
 .menu .icon:hover {
     color: #499ef3;
+}
+
+.sub-comments {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding-top: 15px;
+}
+
+.sub-comments .btn{
+    margin: 10px 0;
 }
