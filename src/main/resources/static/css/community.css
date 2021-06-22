@@ -25,8 +25,14 @@ body {
 }
 
 .community-menu {
+    display: block;
     color: #999;
     font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.question-title{
+    margin-top: 25px;
 }
 
 .media-body {
@@ -42,21 +48,30 @@ body {
     float: right;
     margin-bottom: 10px;
 }
-.comment-sp{
+
+.comment-sp {
     margin-top: 0px;
 }
 
-.menu{
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+
+}
+
+.menu {
     margin-top: 5px;
     color: #999;
 }
 
-.menu .icon{
+.menu .icon {
     font-size: 15px;
     margin-right: 6px;
     /*鼠标悬浮时为小手*/
     cursor: pointer;
 }
-.menu .icon:hover{
+
+.menu .icon:hover {
     color: #499ef3;
 }

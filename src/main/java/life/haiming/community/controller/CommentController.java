@@ -7,6 +7,7 @@ import life.haiming.community.mapper.CommentMapper;
 import life.haiming.community.model.Comment;
 import life.haiming.community.model.User;
 import life.haiming.community.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,10 @@ public class CommentController {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
 
+        //StringUtils.isBlank(commentCreateDTO.getContent().trim()) 替换掉 commentCreateDTO.getContent() == null
+        if(commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
 
         Comment comment = new Comment();
         comment.setParentId(commentCreateDTO.getParentId());

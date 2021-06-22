@@ -2,6 +2,11 @@ function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
 
+    if(!content){
+        alert("不能回复空内容~");
+        return;
+    }
+
     //jQuery官方的post方法
     $.ajax({
         type: "POST",
@@ -15,7 +20,8 @@ function post() {
         }),
         success: function (response) {
             if (response.code == 200) {
-                $("#comment_section").hide();
+                window.location.reload();
+                //$("#comment_section").hide();
             } else {
                 if (response.code == 2003) {
                     //弹一个确认框
