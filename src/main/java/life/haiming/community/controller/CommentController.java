@@ -62,7 +62,7 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET) //这里我为什么特么一开始写成了POST 淦 睡觉睡觉
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
         List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
         return ResultDTO.okOf(commentDTOS);

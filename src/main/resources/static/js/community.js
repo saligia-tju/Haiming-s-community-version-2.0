@@ -81,27 +81,62 @@ function collapseComments(e) {
         comments.removeClass("in");
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
-    }
-    //这行代码加上就报错 我淦！！！！！！！！！！！
-    else {
-        $.getJSON("/comment/" + id, function (data) {
-            let subCommentContainer = $("#comment-" + id);
-            $.each(data.data,function (index,comment){
-                var c = $("<div/>",{
-                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-                    html:comment.content
-                });
-                subCommentContainer.prepend(c);
-            });
+    } else {
 
+        var subCommentContainer = $("#comment-" + id);
+
+        //判断是第几次加载，若容器大于1
+        if (subCommentContainer.children().length != 1) {
             //展开二级评论
             comments.addClass("in");
             //标记二级评论展开状态
             e.setAttribute("data-collapse", "in");
             e.classList.add("active");
-        });
+        } else {
+            $.getJSON("/comment/" + id, function (data) {
+
+                $.each(data.data.reverse(), function (index, comment) {
+                    var mediaLeftElement = $("<div/>", {
+                        "class": "media-left"
+                    }).append($("<img/>", {
+                        "class": "media-object2",
+                        "src": comment.user.avatarUrl
+                    }));
+
+                    var mediaBodyElement = $("<div/>", {
+                        "class": "media-body",
+                    }).append($("<h5/>", {
+                        "class": "media-heading",
+                        "html": comment.user.name
+                    })).append($("<div/>", {
+                        "html": comment.content
+                    })).append($("<div/>", {
+                        "class": "menu",
+                    })).append($("<div/>", {
+                        "class": "pull-right menu-date",
+                        "html": moment(comment.gmtCreate).format('YYYY-MM-DD')
+                    }));
+
+                    var mediaElement = $("<div/>", {
+                        "class": "media"
+                    }).append(mediaLeftElement).append(mediaBodyElement);
+
+                    var commentElement = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                    }).append(mediaElement);
+
+                    subCommentContainer.prepend(commentElement);
+                });
+                //展开二级评论
+                comments.addClass("in");
+                //标记二级评论展开状态
+                e.setAttribute("data-collapse", "in");
+                e.classList.add("active");
+            });
+        }
     }
 }
+
 /*
     else {
         comments.addClass("in");

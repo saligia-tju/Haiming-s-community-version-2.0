@@ -64,12 +64,24 @@ body {
     margin-top: 5px;
     color: #999;
 }
+.menu-date{
+    color: #999;
+}
 
 .menu .icon {
     font-size: 15px;
     margin-right: 6px;
     /*鼠标悬浮时为小手*/
     cursor: pointer;
+}
+.menu .comment-icon{
+    font-size: 15px;
+    margin-right: 6px;
+    /*鼠标悬浮时为小手*/
+    cursor: pointer;
+}
+.menu .comment-icon:hover{
+    color: #499ef3;
 }
 
 .menu .active {
