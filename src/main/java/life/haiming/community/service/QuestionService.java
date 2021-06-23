@@ -56,7 +56,10 @@ public class QuestionService {
         Integer offset = size * (page - 1);
 
         //需使用selectByExampleWithBLOBsWithRowbounds 代替 selectByExampleWithRowbounds，否则description为null
-        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        //首页的问题按创建时间倒序排列
+        questionExample.setOrderByClause("gmt_modified desc");
+        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {

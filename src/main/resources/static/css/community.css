@@ -34,6 +34,9 @@ body {
 .question-title {
     margin-top: 25px;
 }
+.question-tag{
+    margin-right:5px
+}
 
 .media-body {
     padding-top: 11px
