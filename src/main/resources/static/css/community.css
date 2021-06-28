@@ -38,6 +38,7 @@ body {
     font-size: 20px;
 }
 
+
 .community-menu {
     display: block;
     color: #999;
@@ -50,7 +51,9 @@ body {
 }
 .question-tag{
     cursor: pointer;
-    margin-right:5px
+    margin:5px 5px;
+    display: inline-block; /*不会中间断开*/
+    white-space: normal;
 }
 
 .question-related{
