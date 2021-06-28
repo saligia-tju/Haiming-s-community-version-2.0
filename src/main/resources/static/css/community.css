@@ -24,6 +24,20 @@ body {
     color: #999999;
 }
 
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+}
+
+.publish-tag-tags{
+    padding-top: 10px;
+}
+
+.publish-tag-panel{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
 .community-menu {
     display: block;
     color: #999;
@@ -35,12 +49,13 @@ body {
     margin-top: 25px;
 }
 .question-tag{
+    cursor: pointer;
     margin-right:5px
 }
 
 .question-related{
     line-height: 20px;
-    font-size: 12px;
+    font-size: 18px;
     margin-left: 0;
     list-style: none;
     padding-left: 0;
