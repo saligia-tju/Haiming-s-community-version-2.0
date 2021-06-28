@@ -71,7 +71,7 @@ public class PublishController {
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
-        question.setTag(tag);
+        question.setTag(tag.replace("，",",")); //中文逗号转换为英文逗号-
         question.setCreator(user.getId());
         question.setId(id);
 

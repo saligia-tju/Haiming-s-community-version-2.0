@@ -11,21 +11,29 @@
         <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount"/>
         <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount"/>
         <result column="TAG" jdbcType="VARCHAR" property="tag"/>
-        <result column="STICKY" jdbcType="INTEGER" property="sticky" />
+        <result column="STICKY" jdbcType="INTEGER" property="sticky"/>
     </resultMap>
 
     <update id="incView" parameterType="life.haiming.community.model.Question">
         update QUESTION
-        set
-            VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+        set VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
 
     <update id="incCommentCount" parameterType="life.haiming.community.model.Question">
 
         update QUESTION
-        set
-            COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
+        set COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
+
+    <select id="selectRelated" parameterType="life.haiming.community.model.Question" resultMap="BaseResultMap">
+
+        select *
+        from QUESTION
+        where id != #{id}
+          and TAG REGEXP #{tag} LIMIT 10;
+
+    </select>
+
 </mapper>

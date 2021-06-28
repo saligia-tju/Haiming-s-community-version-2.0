@@ -26,7 +26,7 @@ public class QuestionController {
     // @PathVariable注解的作用：将上面{xxx}内的xx传递到 Integer id中
     public String question(@PathVariable(name = "id") Long id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);
-
+        List<QuestionDTO> relatedQuestions = questionService.selectRelated(questionDTO);
         //返回List，内容为CommentDTO
         List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
@@ -36,6 +36,7 @@ public class QuestionController {
 
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",comments);
+        model.addAttribute("relatedQuestions",relatedQuestions);
         return "question";
     }
 
