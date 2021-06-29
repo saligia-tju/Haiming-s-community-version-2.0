@@ -2,6 +2,8 @@ package life.haiming.community.service;
 
 import life.haiming.community.dto.CommentDTO;
 import life.haiming.community.enums.CommentTypeEnum;
+import life.haiming.community.enums.NotificationEnum;
+import life.haiming.community.enums.NotificationStatusEnum;
 import life.haiming.community.exception.CustomizeErrorCode;
 import life.haiming.community.exception.CustomizeException;
 import life.haiming.community.mapper.*;
@@ -35,6 +37,10 @@ public class CommentService {
     @Autowired(required = false)
     private CommentExtMapper commentExtMapper;
 
+    @Autowired(required = false)
+    private NotificationMapper notificationMapper;
+
+    //需要保证insert操作的一致性，加上@Transactional注解实现事务
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
@@ -57,6 +63,9 @@ public class CommentService {
                 parentComment.setId(comment.getParentId());
                 parentComment.setCommentCount(1);
                 commentExtMapper.incCommentCount(parentComment);
+
+                //创建通知
+                createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMENT);
             }
         } else {
             //回复问题
@@ -69,7 +78,21 @@ public class CommentService {
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionExtMapper.incCommentCount(question);
+
+            //创建通知
+            createNotify(comment, question.getCreator(), NotificationEnum.REPLY_QUESTION);
         }
+    }
+
+    private void createNotify(Comment comment, Integer receiver, NotificationEnum notificationType) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(comment.getParentId()); //所回复的问题的id
+        notification.setNotifier(comment.getCommentator()); //回复问题的人
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus()); //回复消息的状态，0为未读，1为已读
+        notification.setReceiver(receiver);
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {

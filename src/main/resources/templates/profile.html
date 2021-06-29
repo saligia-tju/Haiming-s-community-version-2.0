@@ -25,10 +25,19 @@
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading" th:text="${question.title}"></h4>
-                <span class="text-desc">1 人关注 • <span th:text="${question.commentCount}"></span> 个回复 • <span
-                        th:text="${question.viewCount}"></span> <span
-                        th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
+                <h4 class="media-heading"n>
+                    <a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.title}"></a>
+                </h4>
+                <span class="text-desc">
+                    <span th:text="${question.commentCount}"></span> 个回复 • <span
+                        th:text="${question.viewCount}"></span> 次浏览 • <span
+                        th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> •
+
+                         <a th:href="@{'/publish/'+ ${question.id}}" class="community-menu"
+                            th:if="${session.user != null && session.user.id == question.creator}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+                         </a>
+                </span>
             </div>
         </div>
 
@@ -40,7 +49,8 @@
                     </a>
                 </li>
                 <li th:if="${pagination.showPrevious}">
-                    <a th:href="@{/profile/{section}/(page=${pagination.page - 1},section=${section})}" aria-label="Previous">
+                    <a th:href="@{/profile/{section}/(page=${pagination.page - 1},section=${section})}"
+                       aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
@@ -48,12 +58,14 @@
                     <a th:href="@{/profile/{section}/(page=${page},section=${section})}" th:text="${page}"></a>
                 </li>
                 <li th:if="${pagination.showNext}">
-                    <a th:href="@{/profile/{section}/(page=${pagination.page + 1},section=${section})}" aria-label="Next">
+                    <a th:href="@{/profile/{section}/(page=${pagination.page + 1},section=${section})}"
+                       aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
                 <li th:if="${pagination.showEndPage}">
-                    <a th:href="@{/profile/{section}/(page=${pagination.totalPage},section=${section})}" aria-label="EndPage">
+                    <a th:href="@{/profile/{section}/(page=${pagination.totalPage},section=${section})}"
+                       aria-label="EndPage">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                 </li>
