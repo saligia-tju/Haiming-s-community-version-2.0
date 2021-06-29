@@ -2,7 +2,7 @@ package life.haiming.community.service;
 
 import life.haiming.community.dto.CommentDTO;
 import life.haiming.community.enums.CommentTypeEnum;
-import life.haiming.community.enums.NotificationEnum;
+import life.haiming.community.enums.NotificationTypeEnum;
 import life.haiming.community.enums.NotificationStatusEnum;
 import life.haiming.community.exception.CustomizeErrorCode;
 import life.haiming.community.exception.CustomizeException;
@@ -42,7 +42,7 @@ public class CommentService {
 
     //需要保证insert操作的一致性，加上@Transactional注解实现事务
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -57,6 +57,11 @@ public class CommentService {
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             } else {
+                //为了得到当前question.title，复制了下边的部分代码 （创建通知里的第4个参数）
+                Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
+                if (question == null) {
+                    throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                }
                 commentMapper.insert(comment);
                 //增加评论数
                 Comment parentComment = new Comment();
@@ -65,7 +70,7 @@ public class CommentService {
                 commentExtMapper.incCommentCount(parentComment);
 
                 //创建通知
-                createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMENT);
+                createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
             }
         } else {
             //回复问题
@@ -80,18 +85,20 @@ public class CommentService {
             questionExtMapper.incCommentCount(question);
 
             //创建通知
-            createNotify(comment, question.getCreator(), NotificationEnum.REPLY_QUESTION);
+            createNotify(comment, question.getCreator(), commentator.getName(),question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
         }
     }
 
-    private void createNotify(Comment comment, Integer receiver, NotificationEnum notificationType) {
+    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationType.getType());
-        notification.setOuterId(comment.getParentId()); //所回复的问题的id
+        notification.setOuterId(outerId); //所回复的问题的id
         notification.setNotifier(comment.getCommentator()); //回复问题的人
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus()); //回复消息的状态，0为未读，1为已读
         notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
         notificationMapper.insert(notification);
     }
 

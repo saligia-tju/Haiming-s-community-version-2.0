@@ -2,6 +2,7 @@ package life.haiming.community.controller;
 
 import life.haiming.community.dto.PaginationDTO;
 import life.haiming.community.model.User;
+import life.haiming.community.service.NotificationService;
 import life.haiming.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class ProfileController {
     @Autowired(required = false)
     private QuestionService questionService;
 
+    @Autowired(required = false)
+    private NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(HttpServletRequest request,
                           @PathVariable(name = "action") String action,
@@ -33,11 +37,17 @@ public class ProfileController {
         if ("questions".contains(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDTO);
         } else if ("replies".contains(action)) {
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("pagination", paginationDTO);
+            model.addAttribute("unreadCount", unreadCount);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
         }
-
        /* switch (action){
             case "questions":
                 model.addAttribute("section","questions");
@@ -48,10 +58,6 @@ public class ProfileController {
                 model.addAttribute("sectionName","最新回复");
                 break;
         }*/
-
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDTO);
-
         return "profile";
     }
 
