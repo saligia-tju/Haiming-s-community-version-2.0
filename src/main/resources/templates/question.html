@@ -3,13 +3,19 @@
 <head>
     <title th:text="${question.title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.preview.css">
+
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.js" type="application/javascript"></script>
+    <script src="/lib/marked.min.js" ></script>
+    <script src="/lib/prettify.min.js" ></script>
 
 </head>
 <body>
@@ -29,8 +35,14 @@
         </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--内容-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
-
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="question-view" >
+                    <textarea style="display:none;" th:text="${question.description}" ></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function() {
+                        editormd.markdownToHTML("question-view", {});
+                    });
+                </script>
 
                 <!--标签-->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -141,7 +153,7 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>关注海明的微信</h4>
-                <img src="/img/wechat.jpg" class="img-thumbnail">
+                <img src="/images/wechat.jpg" class="img-thumbnail">
             </div>
 
             <!--相关问题-->

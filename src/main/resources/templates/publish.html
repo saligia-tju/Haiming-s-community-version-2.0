@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.min.css">
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
 </head>
 <body>
 <!--navigation-->
@@ -25,11 +27,24 @@
                        placeholder="问题标题..."
                        autocomplete="off">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="question-editor">
                 <label for="description">问题补充（必填，请参照右侧提示）：</label>
                 <textarea class="form-control" cols="30" rows="10" th:text="${description}" name="description"
-                          id="description"></textarea>
+                          id="description" style="display: none;"></textarea>
             </div>
+
+            <script type="text/javascript">
+                $(function () {
+                    var editor = editormd("question-editor", {
+                        width: "100%",
+                        height: 350,
+                        path: "/lib/",
+                        delay: 0,
+                        placeholder: "请输入问题描述",
+                        watch: false
+                    });
+                });
+            </script>
 
             <div class="form-group">
                 <label for="tag">添加标签：</label>
