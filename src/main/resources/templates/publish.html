@@ -41,7 +41,10 @@
                         path: "/lib/",
                         delay: 0,
                         placeholder: "请输入问题描述",
-                        watch: false
+                        watch: false,
+                        imageUpload: true,          // Enable/disable upload
+                        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL: "/file/upload",             // Upload url
                     });
                 });
             </script>
