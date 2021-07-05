@@ -23,16 +23,17 @@ public class FileController {
     public FileDTO upload(HttpServletRequest request) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("editormd-image-file");
+        String url;
         try {
-            aliCloudProvider.upload(file.getInputStream(), file.getOriginalFilename());
+            url = aliCloudProvider.upload(file.getInputStream(), file.getOriginalFilename());
+            FileDTO fileDTO = new FileDTO();
+            fileDTO.setSuccess(1);
+            fileDTO.setUrl(url);
+            return fileDTO;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FileDTO fileDTO = new FileDTO();
-        fileDTO.setSuccess(1);
-        fileDTO.setUrl("/images/wechat.jpg");
-
-        return fileDTO;
+        return null;
     }
 }
 
