@@ -47,7 +47,7 @@
     <select id="selectBySearch" parameterType="life.haiming.community.dto.QuestionQueryDTO" resultMap="BaseResultMap">
         select * from QUESTION
         <where>
-            <if test="search != null">
+            <if test="search != '' and search != null">
                 and TITLE regexp #{search}
             </if>
         </where>
