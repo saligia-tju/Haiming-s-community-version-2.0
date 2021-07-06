@@ -2,6 +2,7 @@ package life.haiming.community.service;
 
 import life.haiming.community.dto.PaginationDTO;
 import life.haiming.community.dto.QuestionDTO;
+import life.haiming.community.dto.QuestionQueryDTO;
 import life.haiming.community.exception.CustomizeErrorCode;
 import life.haiming.community.exception.CustomizeException;
 import life.haiming.community.mapper.QuestionExtMapper;
@@ -33,12 +34,14 @@ public class QuestionService {
     @Autowired(required = false)
     private UserMapper userMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
 
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
 
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         //计算页数，并根据当前页数选择显示什么标签
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -57,21 +60,17 @@ public class QuestionService {
         paginationDTO.setPagination(totalPage, page);
 
         Integer offset = size * (page - 1);
-
-        //需使用selectByExampleWithBLOBsWithRowbounds 代替 selectByExampleWithRowbounds，否则description为null
-        QuestionExample questionExample = new QuestionExample();
-
-        //首页的问题按创建时间倒序排列
-        questionExample.setOrderByClause("gmt_modified desc");
-        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
- /**         测试id和description是否为null
-            Long id = question.getId();
-            String description = question.getDescription();
-            System.out.println(id);
-            System.out.println(description);*/
+            /**         测试id和description是否为null
+             Long id = question.getId();
+             String description = question.getDescription();
+             System.out.println(id);
+             System.out.println(description);*/
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             //BeanUtils.copyProperties 可以将一个类快速拷贝到另一个类
@@ -132,10 +131,11 @@ public class QuestionService {
         return paginationDTO;
     }
 
+
     public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         //若问题不存在
-        if (question == null){
+        if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
@@ -165,7 +165,7 @@ public class QuestionService {
             example.createCriteria()
                     .andIdEqualTo(question.getId());
             int update = questionMapper.updateByExampleSelective(updateQuestion, example);
-            if(update != 1){
+            if (update != 1) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
@@ -181,7 +181,7 @@ public class QuestionService {
     }
 
     public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
-        if (StringUtils.isBlank(queryDTO.getTag())){
+        if (StringUtils.isBlank(queryDTO.getTag())) {
             return new ArrayList<>();
         }
         String[] tags = StringUtils.split(queryDTO.getTag(), ",");
@@ -193,7 +193,7 @@ public class QuestionService {
         List<Question> questions = questionExtMapper.selectRelated(question);
         List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
             QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(q,questionDTO);
+            BeanUtils.copyProperties(q, questionDTO);
             return questionDTO;
         }).collect(Collectors.toList());
 
