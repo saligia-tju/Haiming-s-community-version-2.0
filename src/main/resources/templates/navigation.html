@@ -46,7 +46,7 @@
                     </li>
 
                     <li th:unless=" ${session.user != null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=2dbeb9ea261b20041f31&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
+                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='2dbeb9ea261b20041f31',redirect_url=${#httpServletRequest.getRequestURL()+'callback'},scope='user',state='1')}">登录</a>
                     </li>
 
                 </ul>
