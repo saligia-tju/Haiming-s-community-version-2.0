@@ -47,17 +47,29 @@ public class AliCloudProvider {
 
         String key = "pictures/" + generatedFileName;
         PutObjectResult putObjectResult = ossClient.putObject(bucketName, key, fileStream);
+
+        /**
+         * 生成私有url链接
+         if (putObjectResult != null) {
+         //生成url
+         // 过期时间：1小时 3600*1000
+         Date expiration = new Date(new Date().getTime() + 24 * 3600 * 1000);
+         // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
+         URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
+         // 关闭OSSClient。
+         ossClient.shutdown();
+         return url.toString();
+         } else {
+         // 关闭OSSClient。
+         ossClient.shutdown();
+         throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FILE);
+         }*/
+        //公有url链接
         if (putObjectResult != null) {
-            //生成url
-            // 过期时间：1小时 3600*1000
-            Date expiration = new Date(new Date().getTime() + 24 * 3600 * 1000);
-            // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
-            URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
-            // 关闭OSSClient。
+            String url = "https://haiming-community.oss-cn-beijing.aliyuncs.com/pictures/" + generatedFileName;
             ossClient.shutdown();
-            return url.toString();
+            return url;
         } else {
-            // 关闭OSSClient。
             ossClient.shutdown();
             throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FILE);
         }
