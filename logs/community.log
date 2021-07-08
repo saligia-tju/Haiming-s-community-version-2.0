@@ -704,3 +704,40 @@ Caused by: org.thymeleaf.exceptions.TemplateProcessingException: Could not parse
 2021-07-08 00:35:40.874  INFO 14576 --- [http-nio-8887-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2021-07-08 00:35:40.874  INFO 14576 --- [http-nio-8887-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2021-07-08 00:35:40.876  INFO 14576 --- [http-nio-8887-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-07-08 15:11:04.442  INFO 16092 --- [restartedMain] l.h.community.CommunityApplication       : Starting CommunityApplication using Java 1.8.0_281 on SKY-20160126AZB with PID 16092 (C:\Users\Administrator\Desktop\community\target\classes started by Administrator in C:\Users\Administrator\Desktop\community)
+2021-07-08 15:11:04.445  INFO 16092 --- [restartedMain] l.h.community.CommunityApplication       : No active profile set, falling back to default profiles: default
+2021-07-08 15:11:04.498  INFO 16092 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-08 15:11:04.498  INFO 16092 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-08 15:11:05.945  INFO 16092 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 80 (http)
+2021-07-08 15:11:05.955  INFO 16092 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-07-08 15:11:05.956  INFO 16092 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-08 15:11:06.175  INFO 16092 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-07-08 15:11:06.176  INFO 16092 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1677 ms
+2021-07-08 15:11:06.214  INFO 16092 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-07-08 15:11:06.217  WARN 16092 --- [restartedMain] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2021-07-08 15:11:06.664  INFO 16092 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-07-08 15:11:06.670  INFO 16092 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://haiming-community.mysql.rds.aliyuncs.com/community'
+2021-07-08 15:11:07.332  INFO 16092 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-07-08 15:11:08.206  INFO 16092 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-07-08 15:11:08.245  INFO 16092 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 80 (http) with context path ''
+2021-07-08 15:11:08.258  INFO 16092 --- [restartedMain] l.h.community.CommunityApplication       : Started CommunityApplication in 4.376 seconds (JVM running for 6.881)
+2021-07-08 15:11:08.259  INFO 16092 --- [restartedMain] o.s.b.a.ApplicationAvailabilityBean      : Application availability state LivenessState changed to CORRECT
+2021-07-08 15:11:08.261  INFO 16092 --- [restartedMain] o.s.b.a.ApplicationAvailabilityBean      : Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-07-08 15:11:55.004  INFO 6528 --- [restartedMain] l.h.community.CommunityApplication       : Starting CommunityApplication using Java 1.8.0_281 on SKY-20160126AZB with PID 6528 (C:\Users\Administrator\Desktop\community\target\classes started by Administrator in C:\Users\Administrator\Desktop\community)
+2021-07-08 15:11:55.008  INFO 6528 --- [restartedMain] l.h.community.CommunityApplication       : No active profile set, falling back to default profiles: default
+2021-07-08 15:11:55.063  INFO 6528 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-08 15:11:55.063  INFO 6528 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-08 15:11:56.415  INFO 6528 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 80 (http)
+2021-07-08 15:11:56.424  INFO 6528 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-07-08 15:11:56.425  INFO 6528 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-08 15:11:56.621  INFO 6528 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-07-08 15:11:56.622  INFO 6528 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1557 ms
+2021-07-08 15:11:56.653  INFO 6528 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-07-08 15:11:57.043  INFO 6528 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-07-08 15:11:57.049  INFO 6528 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://haiming-community.mysql.rds.aliyuncs.com/community'
+2021-07-08 15:11:57.661  INFO 6528 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-07-08 15:11:58.499  INFO 6528 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-07-08 15:11:58.534  INFO 6528 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 80 (http) with context path ''
+2021-07-08 15:11:58.544  INFO 6528 --- [restartedMain] l.h.community.CommunityApplication       : Started CommunityApplication in 4.117 seconds (JVM running for 6.616)
+2021-07-08 15:11:58.546  INFO 6528 --- [restartedMain] o.s.b.a.ApplicationAvailabilityBean      : Application availability state LivenessState changed to CORRECT
+2021-07-08 15:11:58.548  INFO 6528 --- [restartedMain] o.s.b.a.ApplicationAvailabilityBean      : Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
