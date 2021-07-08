@@ -67,6 +67,12 @@
         </dependency>
 
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.25</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.9.0</version>
@@ -118,15 +124,15 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:h2:C:/Users/Administrator/Desktop/community/src/main/java/life/haiming/community</url>
+                    <url>jdbc:mysql://rm-bp1c7e8s0zf55k1wlko.mysql.rds.aliyuncs.com:3306/community</url>
                     <user>haiming</user>
-                    <password>123</password>
+                    <password>521loveqy</password>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.45</version>
+                        <version>8.0.25</version>
                     </dependency>
 
                     <dependency>
