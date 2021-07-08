@@ -10,15 +10,3 @@ create table COMMENT
     CONTENT      VARCHAR(255)
 );
 
-comment on column COMMENT.PARENT_ID is '父类id';
-
-comment on column COMMENT.TYPE is '父类类型，区别一级回复还是二级回复';
-
-comment on column COMMENT.COMMENTATOR is '评论人id';
-
-comment on column COMMENT.GMT_CREATE is '创建时间';
-
-comment on column COMMENT.GMT_MODIFIED is '更新时间';
-
-comment on column COMMENT.CONTENT is '评论内容';
-
