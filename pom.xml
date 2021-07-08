@@ -124,9 +124,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://rm-bp1c7e8s0zf55k1wlko.mysql.rds.aliyuncs.com:3306/community</url>
+                    <url>jdbc:mysql://haiming-community.mysql.rds.aliyuncs.com:3306/community</url>
                     <user>haiming</user>
-                    <password>521loveqy</password>
+                    <password>521loveQE</password>
                 </configuration>
                 <dependencies>
                     <dependency>
